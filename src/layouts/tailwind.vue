@@ -26,6 +26,10 @@ const teams = [
   { name: 'Human Resources', href: '#', bgColorClass: 'bg-green-500' },
   { name: 'Customer Success', href: '#', bgColorClass: 'bg-yellow-500' },
 ]
+const pages = [
+  { name: 'Projects', href: '#', current: false },
+  { name: 'Project Nero', href: '#', current: true },
+]
 const projects = [
   {
     id: 1,
@@ -126,6 +130,12 @@ const navigation2 = [
       { name: 'Settings', href: '#', icon: ViewListIcon },
     ],
   },
+]
+const tabs = [
+  { name: 'My Account', href: '#', current: false },
+  { name: 'Company', href: '#', current: false },
+  { name: 'Team Members', href: '#', current: true },
+  { name: 'Billing', href: '#', current: false },
 ]
 </script>
 
@@ -265,12 +275,12 @@ const navigation2 = [
             <!--            </a> -->
             <template v-for="item in navigation2" :key="item.name">
               <div v-if="!item.children">
-                <a :href="item.href" class="group w-full flex items-center pl-7 pr-2 py-2 text-sm font-medium rounded-md" :class="[item.current ? 'bg-gray-100 text-gray-900' : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900']">
+                <a :href="item.href" class="group w-full flex items-center px-2 py-2 text-sm font-medium rounded-md" :class="[item.current ? 'bg-gray-200 text-gray-900' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50']" >
                   {{ item.name }}
                 </a>
               </div>
               <Disclosure v-else v-slot="{ open }" as="div" class="space-y-1">
-                <DisclosureButton class="group w-full items-center pr-2 py-2 text-left text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" :class="[item.current ? 'bg-gray-100 text-gray-900' : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900']">
+                <DisclosureButton class="group w-full items-center pr-2 py-2 text-left text-sm font-medium rounded-md" :class="[item.current ? 'bg-gray-200 text-gray-900' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50']" >
                   {{ item.name }}
                   <svg class="inline float-right h-5 w-5 transform group-hover:text-gray-400 transition-colors ease-in-out duration-150" :class="[open ? 'text-gray-400 rotate-90' : 'text-gray-300']" viewBox="0 0 20 20" aria-hidden="true">
                     <path d="M6 6L14 10L6 14V6Z" fill="currentColor" />
@@ -363,6 +373,40 @@ const navigation2 = [
         </div>
       </div>
       <main class="flex-1">
+        <div class="sm:hidden">
+          <label for="tabs" class="sr-only">Select a tab</label>
+          <!-- Use an "onChange" listener to redirect the user to the selected tab URL. -->
+          <select id="tabs" name="tabs" class="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+            <option v-for="tab in tabs" :key="tab.name" :selected="tab.current">{{ tab.name }}</option>
+          </select>
+        </div>
+        <div class="hidden sm:block">
+          <nav class="flex space-x-4" aria-label="Tabs">
+            <a v-for="tab in tabs" :key="tab.name" :href="tab.href" :class="[tab.current ? 'bg-indigo-100 text-indigo-700' : 'text-gray-500 hover:text-gray-700', 'px-3 py-2 font-medium text-sm rounded-md']" :aria-current="tab.current ? 'page' : undefined">
+              {{ tab.name }}
+            </a>
+          </nav>
+        </div>
+        <nav class="bg-white border-b border-gray-200 flex" aria-label="Breadcrumb">
+          <ol role="list" class="max-w-screen-xl w-full mx-auto px-4 flex space-x-4 sm:px-6 lg:px-8">
+            <li class="flex">
+              <div class="flex items-center">
+                <a href="#" class="text-gray-400 hover:text-gray-500">
+                  <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                  <span class="sr-only">Home</span>
+                </a>
+              </div>
+            </li>
+            <li v-for="page in pages" :key="page.name" class="flex">
+              <div class="flex items-center">
+                <svg class="flex-shrink-0 w-6 h-full text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+                </svg>
+                <a :href="page.href" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" :aria-current="page.current ? 'page' : undefined">{{ page.name }}</a>
+              </div>
+            </li>
+          </ol>
+        </nav>
         <!-- Page title & actions -->
         <div class="border-b border-gray-200 px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <div class="flex-1 min-w-0">
