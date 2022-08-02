@@ -13,7 +13,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
-import { ClockIcon, HomeIcon, MenuAlt1Icon, ViewListIcon, XIcon } from '@heroicons/vue/outline'
+import { ChevronDownIcon, ChevronUpIcon, ClockIcon, HomeIcon, MenuAlt1Icon, ViewListIcon, XIcon } from '@heroicons/vue/outline'
 import { ChevronRightIcon, DotsVerticalIcon, SearchIcon, SelectorIcon } from '@heroicons/vue/solid'
 
 const navigation = [
@@ -70,55 +70,60 @@ const pinnedProjects = projects.filter(project => project.pinned)
 const sidebarOpen = ref(false)
 
 const navigation2 = [
-  { name: 'Dashboard', href: '#', current: true },
+  { name: 'Dashboard', href: '#', current: true, icon: HomeIcon },
   {
     name: 'Team',
     current: false,
+    icon: HomeIcon,
     children: [
-      { name: 'Overview', href: '#' },
-      { name: 'Members', href: '#' },
-      { name: 'Calendar', href: '#' },
-      { name: 'Settings', href: '#' },
+      { name: 'Overview', href: '#', icon: HomeIcon },
+      { name: 'Members', href: '#', icon: ViewListIcon },
+      { name: 'Calendar', href: '#', icon: HomeIcon },
+      { name: 'Settings', href: '#', icon: ViewListIcon },
     ],
   },
   {
     name: 'Projects',
     current: false,
+    icon: HomeIcon,
     children: [
-      { name: 'Overview', href: '#' },
-      { name: 'Members', href: '#' },
-      { name: 'Calendar', href: '#' },
-      { name: 'Settings', href: '#' },
+      { name: 'Overview', href: '#', icon: HomeIcon },
+      { name: 'Members', href: '#', icon: ViewListIcon },
+      { name: 'Calendar', href: '#', icon: HomeIcon },
+      { name: 'Settings', href: '#', icon: ViewListIcon },
     ],
   },
   {
     name: 'Calendar',
     current: false,
+    icon: HomeIcon,
     children: [
-      { name: 'Overview', href: '#' },
-      { name: 'Members', href: '#' },
-      { name: 'Calendar', href: '#' },
-      { name: 'Settings', href: '#' },
+      { name: 'Overview', href: '#', icon: HomeIcon },
+      { name: 'Members', href: '#', icon: ViewListIcon },
+      { name: 'Calendar', href: '#', icon: HomeIcon },
+      { name: 'Settings', href: '#', icon: ViewListIcon },
     ],
   },
   {
     name: 'Documents',
     current: false,
+    icon: HomeIcon,
     children: [
-      { name: 'Overview', href: '#' },
-      { name: 'Members', href: '#' },
-      { name: 'Calendar', href: '#' },
-      { name: 'Settings', href: '#' },
+      { name: 'Overview', href: '#', icon: ViewListIcon },
+      { name: 'Members', href: '#', icon: HomeIcon },
+      { name: 'Calendar', href: '#', icon: ViewListIcon },
+      { name: 'Settings', href: '#', icon: HomeIcon },
     ],
   },
   {
     name: 'Reports',
     current: false,
+    icon: HomeIcon,
     children: [
-      { name: 'Overview', href: '#' },
-      { name: 'Members', href: '#' },
-      { name: 'Calendar', href: '#' },
-      { name: 'Settings', href: '#' },
+      { name: 'Overview', href: '#', icon: HomeIcon },
+      { name: 'Members', href: '#', icon: ViewListIcon },
+      { name: 'Calendar', href: '#', icon: HomeIcon },
+      { name: 'Settings', href: '#', icon: ViewListIcon },
     ],
   },
 ]
@@ -191,8 +196,8 @@ const navigation2 = [
       <div class="flex items-center flex-shrink-0 px-6">
         <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-purple-500-mark-gray-700-text.svg" alt="Workflow">
       </div>
-      <!-- Sidebar component, swap this element with another sidebar if you like -->
-      <div class="mt-6 h-0 flex-1 flex flex-col overflow-y-auto">
+      <!--      <div class="mt-6 h-0 flex-1 flex flex-col "> -->
+      <div class="mt-6 flex flex-shrink-0 flex-col">
         <!-- User account dropdown -->
         <Menu as="div" class="px-3 relative inline-block text-left">
           <div>
@@ -248,6 +253,9 @@ const navigation2 = [
             <input id="search" type="text" name="search" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-9 sm:text-sm border-gray-300 rounded-md" placeholder="Search">
           </div>
         </div>
+      </div>
+      <!-- Sidebar component, swap this element with another sidebar if you like -->
+      <div class="h-0 flex-1 flex flex-col overflow-y-auto" scrollbar="~ w-4px">
         <!-- Navigation -->
         <nav class="px-3 mt-6">
           <div class="space-y-1">
@@ -262,11 +270,11 @@ const navigation2 = [
                 </a>
               </div>
               <Disclosure v-else v-slot="{ open }" as="div" class="space-y-1">
-                <DisclosureButton class="group w-full flex items-center pr-2 py-2 text-left text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" :class="[item.current ? 'bg-gray-100 text-gray-900' : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900']">
-                  <svg class="mr-2 flex-shrink-0 h-5 w-5 transform group-hover:text-gray-400 transition-colors ease-in-out duration-150" :class="[open ? 'text-gray-400 rotate-90' : 'text-gray-300']" viewBox="0 0 20 20" aria-hidden="true">
+                <DisclosureButton class="group w-full items-center pr-2 py-2 text-left text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" :class="[item.current ? 'bg-gray-100 text-gray-900' : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900']">
+                  {{ item.name }}
+                  <svg class="inline float-right h-5 w-5 transform group-hover:text-gray-400 transition-colors ease-in-out duration-150" :class="[open ? 'text-gray-400 rotate-90' : 'text-gray-300']" viewBox="0 0 20 20" aria-hidden="true">
                     <path d="M6 6L14 10L6 14V6Z" fill="currentColor" />
                   </svg>
-                  {{ item.name }}
                 </DisclosureButton>
                 <DisclosurePanel class="space-y-1">
                   <DisclosureButton v-for="subItem in item.children" :key="subItem.name" as="a" :href="subItem.href" class="group w-full flex items-center pl-10 pr-2 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
