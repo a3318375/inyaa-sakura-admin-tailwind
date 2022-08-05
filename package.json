@@ -14,10 +14,13 @@
     "up": "taze major -I"
   },
   "dependencies": {
+    "@kangc/v-md-editor": "^2.3.15",
+    "vite-plugin-prismjs": "^0.0.8",
     "@headlessui/vue": "^1.6.7",
     "@heroicons/vue": "^1.0.6",
     "@vueuse/core": "^9.0.0",
     "@vueuse/head": "^0.7.7",
+    "axios": "^0.27.2",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.17",
     "vue": "^3.2.37",

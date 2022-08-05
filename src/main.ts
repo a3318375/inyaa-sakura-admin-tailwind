@@ -1,20 +1,21 @@
-import { ViteSSG } from 'vite-ssg'
-import { setupLayouts } from 'virtual:generated-layouts'
+import { createHead } from '@vueuse/head'
 import App from './App.vue'
-import type { UserModule } from './types'
-import generatedRoutes from '~pages'
+import { router } from './routes'
 import './styles/main.css'
 import 'uno.css'
 
-const routes = setupLayouts(generatedRoutes)
+const head = createHead()
+const app = createApp(App)
+const modules = import.meta.globEager('/src/modules/*.ts')
+// install all modules under `modules/`
+Object.values(modules).forEach(module => module.install?.(app))
+app.use(router)
+app.use(head)
+app.mount('#app')
 
-// https://github.com/antfu/vite-ssg
-export const createApp = ViteSSG(
-  App,
-  { routes, base: import.meta.env.BASE_URL },
-  (ctx) => {
-    // install all modules under `modules/`
-    Object.values(import.meta.glob<{ install: UserModule }>('./modules/*.ts', { eager: true }))
-      .forEach(i => i.install?.(ctx))
-  },
-)
+const { addTagView } = useTagStore()
+router.beforeEach(async (to, from, next) => {
+  if (to.fullPath !== '/')
+    addTagView(to)
+  next()
+})

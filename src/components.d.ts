@@ -7,6 +7,11 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BaseFieldShow: typeof import('./components/BaseFieldShow.vue')['default']
+    BasePagination: typeof import('./components/BasePagination.vue')['default']
+    BaseTable: typeof import('./components/BaseTable.vue')['default']
+    BaseTableEdit: typeof import('./components/BaseTableEdit.vue')['default']
+    BaseTableSearchSelect: typeof import('./components/BaseTableSearchSelect.vue')['default']
     Counter: typeof import('./components/Counter.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
     README: typeof import('./components/README.md')['default']

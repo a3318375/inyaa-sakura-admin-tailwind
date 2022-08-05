@@ -2,7 +2,6 @@ import path from 'path'
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
-import generateSitemap from 'vite-ssg-sitemap'
 import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -12,6 +11,7 @@ import VueI18n from '@intlify/vite-plugin-vue-i18n'
 import Inspect from 'vite-plugin-inspect'
 import LinkAttributes from 'markdown-it-link-attributes'
 import Unocss from 'unocss/vite'
+import prismjs from 'vite-plugin-prismjs'
 import Shiki from 'markdown-it-shiki'
 
 export default defineConfig({
@@ -65,6 +65,9 @@ export default defineConfig({
     // https://github.com/antfu/unocss
     // see unocss.config.ts for config
     Unocss(),
+    prismjs({
+      languages: ['typescript'],
+    }),
 
     // https://github.com/antfu/vite-plugin-vue-markdown
     // Don't need this? Try vitesse-lite: https://github.com/antfu/vitesse-lite
@@ -137,13 +140,6 @@ export default defineConfig({
     deps: {
       inline: ['@vue', '@vueuse', 'vue-demi'],
     },
-  },
-
-  // https://github.com/antfu/vite-ssg
-  ssgOptions: {
-    script: 'async',
-    formatting: 'minify',
-    onFinished() { generateSitemap() },
   },
 
   ssr: {
