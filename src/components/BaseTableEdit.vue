@@ -1,7 +1,7 @@
 <script setup>
-import { sysApi } from '~/api/sys'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { XIcon } from '@heroicons/vue/outline'
+import { sysApi } from '~/api/sys'
 const props = defineProps({
   isCreate: Boolean,
   formColumns: Array,
@@ -23,11 +23,11 @@ function saveInfo() {
 const openEdit = () => {
   open.value = true
   initData()
-  console.log(1111111)
 }
 async function initData() {
   for (const item of props.formColumns) {
     if (item.fieldType === 2) {
+      item.apiData = []
       if (item.apiConfig.method && item.apiConfig.method === 'post') {
         const fieldApiResp = await sysApi.postByUrl(item.url)
         if (fieldApiResp && fieldApiResp.code === 200)

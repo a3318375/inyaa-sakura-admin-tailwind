@@ -2,7 +2,7 @@
 const props = defineProps({
   datas: Object,
 })
-const editOpen = ref(null)
+const editOpen = ref<any>()
 const columns = props.datas.columns
 const formColumns = props.datas.formColumns
 
@@ -71,6 +71,6 @@ const openEdit = () => {
       </div>
       <BasePagination />
     </div>
-    <BaseTableEdit :ref="editOpen" :form-columns="formColumns" />
+    <BaseTableEdit ref="editOpen" :form-columns="formColumns" />
   </div>
 </template>

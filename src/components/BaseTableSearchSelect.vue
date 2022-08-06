@@ -1,59 +1,46 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { CheckIcon, SelectorIcon } from '@heroicons/vue/solid'
-import {
-  Combobox,
-  ComboboxButton,
-  ComboboxInput,
-  ComboboxLabel,
-  ComboboxOption,
-  ComboboxOptions,
-} from '@headlessui/vue'
 const props = defineProps({
   field: String,
   datas: Array,
 })
 console.log(3333, props.datas)
-const query = ref('')
 const baseSelectValue = ref({})
-const selectedPerson = ref()
 defineExpose({
   baseSelectValue,
 })
-
-selectedPerson.value = baseSelectValue.value[props.field]
-const filteredPeople = computed(() =>
-  query.value === ''
-    ? props.datas
-    : props.datas.filter((person) => {
-      return person.name.toLowerCase().includes(query.value.toLowerCase())
-    }),
-)
+if (props.datas)
+  baseSelectValue.va = props.datas[0]
 </script>
 
 <template>
   <div>
-    <Combobox v-model="selectedPerson" as="div">
-      <div class="relative mt-1">
-        <ComboboxInput class="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" :display-value="(person) => person?.name" @change="query = $event.target.value" />
-        <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-          <SelectorIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-        </ComboboxButton>
+    <Listbox v-model="baseSelectValue" as="div">
+      <div class="mt-1 relative">
+        <ListboxButton class="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <span class="block truncate">{{ baseSelectValue.name }}</span>
+          <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+            <SelectorIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+          </span>
+        </ListboxButton>
 
-        <ComboboxOptions v-if="filteredPeople.length > 0" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-          <ComboboxOption v-for="person in filteredPeople" :key="person.id" v-slot="{ active, selected }" :value="person" as="template">
-            <li class="relative cursor-default select-none py-2 pl-8 pr-4" :class="[active ? 'bg-indigo-600 text-white' : 'text-gray-900']">
-              <span class="block truncate" :class="[selected && 'font-semibold']">
-                {{ person.name }}
-              </span>
+        <transition leave-active-class="transition ease-in duration-100" leave-from-class="opacity-100" leave-to-class="opacity-0">
+          <ListboxOptions class="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+            <ListboxOption v-for="person in props.datas" :key="person.id" v-slot="{ active, selected }" as="template" :value="person">
+              <li class="cursor-default select-none relative py-2 pl-8 pr-4" :class="[active ? 'text-white bg-indigo-600' : 'text-gray-900']">
+                <span class="block truncate" :class="[selected ? 'font-semibold' : 'font-normal']">
+                  {{ person.name }}
+                </span>
 
-              <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-1.5" :class="[active ? 'text-white' : 'text-indigo-600']">
-                <CheckIcon class="h-5 w-5" aria-hidden="true" />
-              </span>
-            </li>
-          </ComboboxOption>
-        </ComboboxOptions>
+                <span v-if="selected" class="absolute inset-y-0 left-0 flex items-center pl-1.5" :class="[active ? 'text-white' : 'text-indigo-600']">
+                  <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                </span>
+              </li>
+            </ListboxOption>
+          </ListboxOptions>
+        </transition>
       </div>
-    </Combobox>
+    </Listbox>
   </div>
 </template>
