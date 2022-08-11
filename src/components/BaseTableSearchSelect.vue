@@ -10,8 +10,7 @@ const baseSelectValue = ref({})
 defineExpose({
   baseSelectValue,
 })
-if (props.datas)
-  baseSelectValue.va = props.datas[0]
+console.log(2222222222, baseSelectValue)
 </script>
 
 <template>

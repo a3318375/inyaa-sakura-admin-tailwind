@@ -38,7 +38,10 @@ async function initData() {
         if (fieldApiResp && fieldApiResp.code === 200)
           item.apiData = fieldApiResp.data
       }
-      console.log(222222, item.apiData)
+      if (item.apiData)
+        blogInfo.value[item.field] = item.apiData[0]
+
+      console.log(222222, item.field, item.apiData[0], blogInfo)
     }
   }
 }

@@ -1,4 +1,5 @@
 <script setup>
+const route = useRoute()
 import {
   Dialog,
   DialogPanel,
@@ -12,10 +13,11 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
-import { HomeIcon, MenuAlt1Icon, XIcon } from '@heroicons/vue/outline'
+import { MenuAlt1Icon, XIcon } from '@heroicons/vue/outline'
 import { SearchIcon, SelectorIcon } from '@heroicons/vue/solid'
 import { initSys } from '~/api/sys'
 const { menuList } = useMenuStore()
+const { tagList, removeTagView } = useTagStore()
 
 const teams = [
   { name: 'Engineering', href: '#', bgColorClass: 'bg-indigo-500' },
@@ -29,23 +31,26 @@ const pages = [
 const sidebarOpen = ref(false)
 
 const tabs = [
+  { name: 'My Account', href: '#', current: true },
+  { name: 'Company', href: '#', current: false },
+  { name: 'Team Members', href: '#', current: false },
+  { name: 'Billing', href: '#', current: false },
+  { name: 'Team Members', href: '#', current: false },
   { name: 'My Account', href: '#', current: false },
   { name: 'Company', href: '#', current: false },
-  { name: 'Team Members', href: '#', current: true },
+  { name: 'Team Members', href: '#', current: false },
   { name: 'Billing', href: '#', current: false },
+  { name: 'Team Members', href: '#', current: false },
+  { name: 'My Account', href: '#', current: false },
+  { name: 'Company', href: '#', current: false },
+  { name: 'Team Members', href: '#', current: false },
+  { name: 'Billing', href: '#', current: false },
+  { name: 'Team Members', href: '#', current: false },
 ]
 initSys()
 </script>
 
 <template>
-  <!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-white">
-    <body class="h-full">
-    ```
-  -->
   <div class="min-h-full">
     <TransitionRoot as="template" :show="sidebarOpen">
       <Dialog as="div" class="relative z-40 lg:hidden" @close="sidebarOpen = false">
@@ -271,43 +276,15 @@ initSys()
         </div>
       </div>
       <main class="flex-1">
-        <div class="sm:hidden">
-          <label for="tabs" class="sr-only">Select a tab</label>
-          <!-- Use an "onChange" listener to redirect the user to the selected tab URL. -->
-          <select id="tabs" name="tabs" class="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
-            <option v-for="tab in tabs" :key="tab.name" :selected="tab.current">
-              {{ tab.name }}
-            </option>
-          </select>
-        </div>
         <div class="hidden sm:block">
-          <nav class="flex space-x-4" aria-label="Tabs">
-            <a v-for="tab in tabs" :key="tab.name" :href="tab.href" class="px-3 py-2 font-medium text-sm rounded-md" :class="[tab.current ? 'bg-indigo-100 text-indigo-700' : 'text-gray-500 hover:text-gray-700']" :aria-current="tab.current ? 'page' : undefined">
-              {{ tab.name }}
+          <nav class="relative z-0 rounded-lg flex" aria-label="Tabs">
+            <a v-for="tab in tagList" :key="tab.name" :href="tab.fullPath" class="group relative min-w-0 flex-1 overflow-hidden py-1.5 pl-2 pr-6 text-sm font-medium text-center hover:bg-gray-50 focus:z-10" :class="[tab.fullPath === route.path ? 'bg-white text-gray-900' : 'shadow border-r border-black bg-gray-300 hover:text-gray-700']" :aria-current="tab.current ? 'page' : undefined">
+              <p class="truncate ...">{{ tab.title }}</p>
+              <XIcon class="absolute h-4 w-4 top-2 right-1" aria-hidden="true" />
             </a>
           </nav>
         </div>
-        <nav class="bg-white border-b border-gray-200 flex" aria-label="Breadcrumb">
-          <ol role="list" class="max-w-screen-xl w-full mx-auto px-4 flex space-x-4 sm:px-6 lg:px-8">
-            <li class="flex">
-              <div class="flex items-center">
-                <a href="#" class="text-gray-400 hover:text-gray-500">
-                  <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
-                  <span class="sr-only">Home</span>
-                </a>
-              </div>
-            </li>
-            <li v-for="page in pages" :key="page.name" class="flex">
-              <div class="flex items-center">
-                <svg class="flex-shrink-0 w-6 h-full text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-                </svg>
-                <a :href="page.href" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" :aria-current="page.current ? 'page' : undefined">{{ page.name }}</a>
-              </div>
-            </li>
-          </ol>
-        </nav>
-        <div class="w-full h-full">
+        <div class="w-full h-full pt-5">
           <RouterView />
         </div>
       </main>
