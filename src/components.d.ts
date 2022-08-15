@@ -12,6 +12,8 @@ declare module '@vue/runtime-core' {
     BaseTable: typeof import('./components/BaseTable.vue')['default']
     BaseTableEdit: typeof import('./components/BaseTableEdit.vue')['default']
     BaseTableSearchSelect: typeof import('./components/BaseTableSearchSelect.vue')['default']
+    BaseTabs: typeof import('./components/BaseTabs.vue')['default']
+    BaseTabView: typeof import('./components/BaseTabView.vue')['default']
     Counter: typeof import('./components/Counter.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
     README: typeof import('./components/README.md')['default']

@@ -8,7 +8,7 @@ const head = createHead()
 const app = createApp(App)
 const modules = import.meta.globEager('/src/modules/*.ts')
 // install all modules under `modules/`
-Object.values(modules).forEach(module => module.install?.(app))
+Object.values(modules).forEach((module: any) => module.install?.(app))
 app.use(router)
 app.use(head)
 app.mount('#app')

@@ -5,12 +5,10 @@ const props = defineProps({
   field: String,
   datas: Array,
 })
-console.log(3333, props.datas)
-const baseSelectValue = ref({})
+const baseSelectValue = ref({ id: 0, name: '全部' })
 defineExpose({
   baseSelectValue,
 })
-console.log(2222222222, baseSelectValue)
 </script>
 
 <template>

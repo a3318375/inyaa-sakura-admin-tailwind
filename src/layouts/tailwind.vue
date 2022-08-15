@@ -1,5 +1,4 @@
 <script setup>
-const route = useRoute()
 import {
   Dialog,
   DialogPanel,
@@ -16,8 +15,8 @@ import {
 import { MenuAlt1Icon, XIcon } from '@heroicons/vue/outline'
 import { SearchIcon, SelectorIcon } from '@heroicons/vue/solid'
 import { initSys } from '~/api/sys'
+const route = useRoute()
 const { menuList } = useMenuStore()
-const { tagList, removeTagView } = useTagStore()
 
 const teams = [
   { name: 'Engineering', href: '#', bgColorClass: 'bg-indigo-500' },
@@ -276,14 +275,7 @@ initSys()
         </div>
       </div>
       <main class="flex-1">
-        <div class="hidden sm:block">
-          <nav class="relative z-0 rounded-lg flex" aria-label="Tabs">
-            <a v-for="tab in tagList" :key="tab.name" :href="tab.fullPath" class="group relative min-w-0 flex-1 overflow-hidden py-1.5 pl-2 pr-6 text-sm font-medium text-center hover:bg-gray-50 focus:z-10" :class="[tab.fullPath === route.path ? 'bg-white text-gray-900' : 'shadow border-r border-black bg-gray-300 hover:text-gray-700']" :aria-current="tab.current ? 'page' : undefined">
-              <p class="truncate ...">{{ tab.title }}</p>
-              <XIcon class="absolute h-4 w-4 top-2 right-1" aria-hidden="true" />
-            </a>
-          </nav>
-        </div>
+        <BaseTabs />
         <div class="w-full h-full pt-5">
           <RouterView />
         </div>

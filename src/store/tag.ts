@@ -14,12 +14,12 @@ export const useTagStore = defineStore('tag', () => {
    * Current named of the user.
    */
   const tagList: TagListType[] = reactive([])
-  function setTagList(tagList: TagListType[]) {
-    tagList.length = 0
-    tagList.forEach((item) => {
-      tagList.push(item)
-    })
+  const adminTag = {
+    fullPath: '/',
+    name: 'admin',
+    title: '主页',
   }
+  tagList.push(adminTag)
 
   /**
    * 移除 tagView
@@ -31,50 +31,7 @@ export const useTagStore = defineStore('tag', () => {
    * @constructor
    * @param params
    */
-  function removeTagView(params?: any) {
-    switch (typeof params) {
-      case 'undefined':
-        tagList.length = 0
-        router.push('/')
-        break
-      case 'object':
-        removeOneSide(params)
-        break
-      default:
-        removeATagView(params)
-    }
-  }
-
-  function removeOneSide(params: { side: string; index: number }) {
-    switch (params.side) {
-      case 'right':
-        tagList = tagList.slice(0, params.index + 1)
-        // if (tagList.length === 1)
-        //   router.push(tagList[0].fullPath)
-        //
-        // if (tagList.length === params.index + 1)
-        //   router.push(tagList[params.index].fullPath)
-
-        break
-      case 'left':
-        tagList = tagList.slice(params.index, tagList.length)
-        // if (tagList.length === 1)
-        //   router.push(tagList[0].fullPath)
-        //
-        // if (tagList.length <= params.index)
-        //   router.push(tagList[0].fullPath)
-
-        break
-      case 'others':
-        tagList = tagList.splice(params.index, 1)
-        // router.push(tagList[0].fullPath)
-        break
-      default:
-        break
-    }
-  }
-
-  function removeATagView(params: number) {
+  function removeTagView(params: number) {
     tagList.splice(params, 1)
     // 如果移除后， tagView 为空
     if (tagList.length === 0)
@@ -106,7 +63,6 @@ export const useTagStore = defineStore('tag', () => {
 
   return {
     tagList,
-    setTagList,
     addTagView,
     removeTagView,
   }

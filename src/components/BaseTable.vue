@@ -5,9 +5,10 @@ const props = defineProps({
 const editOpen = ref<any>()
 const columns = props.datas.columns
 const formColumns = props.datas.formColumns
+const infoUrl = props.datas.infoUrl
 
-const openEdit = () => {
-  editOpen.value.openEdit()
+const openEdit = (id: number) => {
+  editOpen.value.openEdit(id, infoUrl)
 }
 </script>
 
@@ -60,7 +61,7 @@ const openEdit = () => {
                       {{ blog[column.field] }}
                     </td>
                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                      <a href="javascript:void(0)" class="text-indigo-600 hover:text-indigo-900" @click="openEdit">Edit<span class="sr-only">, {{ blog.title }}</span></a>
+                      <a href="javascript:void(0)" class="text-indigo-600 hover:text-indigo-900" @click="openEdit(blog.id)">Edit<span class="sr-only">, {{ blog.title }}</span></a>
                     </td>
                   </tr>
                 </tbody>
